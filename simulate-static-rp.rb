@@ -12,7 +12,7 @@ def simulate(log_status = false)
     coin = init_coin
 
 
-    iteration = 1000
+    iteration = 100
     iteration.times do |i|
         up = [true, false].sample
         up_counter += 1 if up
@@ -27,13 +27,13 @@ def simulate(log_status = false)
 
         diff = (coin_in_money - static_budget)
 
-        if (diff > 0) #&& (diff > (static_budget * ((2 * step_percentage) / 100.0)))
+        if (diff > 0) && (diff > (static_budget * ((7 * step_percentage) / 100.0)))
             sell_coin = coin - budget_coin
             coin -= sell_coin
             spare_money += (sell_coin * price)
         end
 
-        if diff < 0
+        if diff < 0 #&& ((diff * -1) > (static_budget * ((20 * step_percentage) / 100.0)))
             buy_coin = budget_coin - coin
             if spare_money > (buy_coin * price)
                 coin += buy_coin
@@ -68,7 +68,7 @@ end
 
 counter = 0
 gain_counter = 0
-experiment = 1000
+experiment = 100
 gain_sum = 0
 puts "Base price ended up in higher"
 while counter < experiment
@@ -82,7 +82,10 @@ while counter < experiment
     end
 end
 
-puts "From #{experiment} times experiment with last price ended up positive, #{gain_counter} times this strategy is more profitable"
+puts "From #{experiment} times experiment with last price ended up positive,
+#{gain_counter} times this strategy is more profitable.
+gain sum: #{gain_sum}"
+puts "----------"
 
 
 counter = 0
@@ -100,11 +103,14 @@ while counter < experiment
     end
 end
 
-puts "From #{experiment} times experiment with last price ended up negative, #{gain_counter} times this strategy is more profitable"
+puts "From #{experiment} times experiment with last price ended up negative,
+#{gain_counter} times this strategy is more profitable.
+gain sum: #{gain_sum}"
+puts "----------"
 
 counter = 0
 gain_counter = 0
-puts "Base price ended up in lower"
+puts "Base price ended up in higher or lower"
 ended_up_positive = 0
 ended_up_negative= 0
 gain_sum = 0
@@ -124,4 +130,8 @@ while counter < experiment
     end
 end
 
-puts "From #{experiment} times experiment, #{ended_up_positive} ended up positive, #{ended_up_negative} ended up negative, #{gain_counter} times this strategy is more profitable"
+puts "From #{experiment} times experiment,
+#{ended_up_positive} ended up positive,
+#{ended_up_negative} ended up negative,
+#{gain_counter} times this strategy is more profitable.
+gain sum: #{gain_sum}"
